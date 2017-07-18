@@ -1,0 +1,9 @@
+---
+Name: ecommerce_quick_dispatch
+Before: 'mysite/*'
+After: 'framework/*','cms/*','ecommerce/*'
+---
+
+Order:
+  extensions:
+    - Order_QuickDispatch

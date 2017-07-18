@@ -1,0 +1,33 @@
+{
+    "name": "sunnysideup/ecommerce_quick_dispatch",
+    "type": "silverstripe-module",
+    "description": "adds a quick dispatch option to Silverstripe e-commerce",
+    "keywords": [
+        "Silverstripe-CMS",
+        "CMS",
+        "Silverstripe",
+        "ecommerce",
+        "e-commerce",
+        "shop",
+        "cart",
+        "dispatch",
+        "order step",
+        "send goods"
+    ],
+    "license": "Sunny Side Up (BSD-3-Clause and CUSTOM)",
+    "authors": [
+        {
+            "name": "Nicolaas Francken",
+            "email": "modules@sunnysideup.co.nz",
+            "role": "lead developer"
+        }
+    ],
+    "require": {
+        "sunnysideup/ecommerce": "*",
+        "silverstripe/framework": "~3.1",
+        "silverstripe/cms": "~3.1"
+    },
+    "extra": {
+        "installer-name": "ecommerce_quick_dispatch"
+    }
+}
