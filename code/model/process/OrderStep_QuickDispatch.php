@@ -4,6 +4,7 @@
 
 class OrderStep_QuickDispatch extends OrderStep_Sent implements OrderStepInterface
 {
+
     private static $defaults = array(
         'CustomerCanEdit' => 0,
         'CustomerCanPay' => 0,
@@ -30,24 +31,24 @@ class OrderStep_QuickDispatch extends OrderStep_Sent implements OrderStepInterfa
         return parent::initStep($order);
     }
 
-    /**
-     * Add a member to the order - in case he / she is not a shop admin.
-     *
-     * @param Order object
-     *
-     * @return bool - true if run correctly.
-     **/
-    public function doStep(Order $order)
-    {
-        if ($order->HasBeenDispatched) {
-            if (! $this->RelevantLogEntry($order)) {
-                $log = OrderStatusLog_DispatchPhysicalOrder::create();
-                $log->OrderID = $order->ID;
-                $log->write();
+     /**
+      * Add a member to the order - in case he / she is not a shop admin.
+      *
+      * @param Order object
+      *
+      * @return bool - true if run correctly.
+      **/
+     public function doStep(Order $order)
+     {
+         if($order->HasBeenDispatched) {
+            if ( ! $this->RelevantLogEntry($order)) {
+                 $log = OrderStatusLog_DispatchPhysicalOrder::create();
+                 $log->OrderID = $order->ID;
+                 $log->write();
             }
-        }
-        return parent::doStep($order);
-    }
+         }
+         return parent::doStep($order);
+     }
 
     /**
      * go to next step if order has been submitted.
@@ -71,4 +72,7 @@ class OrderStep_QuickDispatch extends OrderStep_Sent implements OrderStepInterfa
     {
         return _t('OrderStep.QUICKDISPATCH_DESCRIPTION', 'The order is on its way to the customer.');
     }
+
+
+
 }

@@ -24,20 +24,20 @@ class Order_QuickDispatch extends DataExtension
     {
         $currentStatus = $this->owner->Status();
         //start hack
-        if ($currentStatus && $currentStatus->ClassName === 'OrderStep_Sent') {
+        if($currentStatus && $currentStatus->ClassName === 'OrderStep_Sent') {
             $orderStepGood = OrderStep::get()->filter(array('Code' => 'OrderStep_QuickDispatch'))->first();
-            if ($orderStepGood && $this->owner->StatusID != $orderStepGood->ID) {
+            if($orderStepGood && $this->owner->StatusID != $orderStepGood->ID) {
                 $orderStepBad = OrderStep::get()->filter(array('Code' => 'OrderStep_Sent'))->first();
-                if ($orderStepBad && $this->owner->StatusID == $orderStepBad->ID) {
+                if($orderStepBad && $this->owner->StatusID == $orderStepBad->ID) {
                     $this->owner->StatusID = $orderStepGood->ID;
                     $this->owner->write();
                 }
             }
         }
         //end hack
-        if ($currentStatus && $currentStatus instanceof OrderStep_QuickDispatch) {
+        if($currentStatus && $currentStatus instanceof OrderStep_QuickDispatch) {
             $allFields = Config::inst()->get('Order_QuickDispatch', 'remove_parent_log_field') ? false : true;
-            if ($allFields) {
+            if($allFields) {
                 $headerField1 = HeaderField::create('QuickDispatchHeader1', ' - Option A: Quick Dispatch', 5);
             } else {
                 $headerField1 = HiddenField::create('QuickDispatchHeader1');
@@ -50,7 +50,7 @@ class Order_QuickDispatch extends DataExtension
                     1 => _t('Order_QuickDispatch.GONE', 'It\'s Gone')
                 )
             );
-            if (class_exists('DataObjectOneFieldUpdateController')) {
+            if(class_exists('DataObjectOneFieldUpdateController')) {
                 $link = DataObjectOneFieldUpdateController::popup_link(
                     $ClassName = 'Order',
                     $FieldName = 'HasBeenDispatched',
@@ -61,7 +61,7 @@ class Order_QuickDispatch extends DataExtension
                 );
                 $checkboxfield->setDescription('You can also do a: '.$link);
             }
-            if ($allFields) {
+            if($allFields) {
                 $headerField2 = HeaderField::create('QuickDispatchHeader2', ' - Option B: Detailed Dispatch', 5);
             } else {
                 $headerField2 = HiddenField::create('QuickDispatchHeader2');
@@ -75,7 +75,7 @@ class Order_QuickDispatch extends DataExtension
                 ),
                 'OrderStatusLog_DispatchPhysicalOrder'
             );
-            if (! $allFields) {
+            if(! $allFields) {
                 $fields->removeFieldFromTab(
                     'Root.Next',
                     'OrderStatusLog_DispatchPhysicalOrder'
@@ -94,14 +94,15 @@ class Order_QuickDispatch extends DataExtension
     public function onAfterWrite()
     {
         $currentStatus = $this->owner->Status();
-        if ($currentStatus && $currentStatus instanceof OrderStep_QuickDispatch) {
-            if (!isset(self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID])) {
+        if($currentStatus && $currentStatus instanceof OrderStep_QuickDispatch) {
+            if(!isset(self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID])) {
                 self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID] = 0;
             }
-            if (self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID] < 2) {
+            if(self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID] < 2) {
                 self::$_on_after_write_count_for_order_step_dispatch[$this->owner->ID]++;
                 $this->owner->tryToFinaliseOrder();
             }
         }
     }
+
 }
